@@ -1,0 +1,11 @@
+//**公共样式***********************************************/
+$color_default: #a5a5a5; // 默认字体颜色
+$color_white: #fff; // 白色
+$color_black: #000; // 黑色
+$color_bg: #002a40; // 背景色-深蓝色 top、弹框、下拉框等
+$color_theme: #cdf2f9; // 主题色-亮蓝-菜单选中、面板标题颜色
+$color_selected: #e6cc92; // 选中颜色
+
+:export {
+  color_default: $color_default;
+}

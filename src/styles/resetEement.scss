@@ -1,0 +1,107 @@
+// form 表单样式修改*******************************
+.el-form-item__label {
+  color: $color_default;
+  font-size: 14px;
+  text-align: end;
+}
+
+.el-form-item--mini.el-form-item {
+  margin-bottom: 6px;
+}
+
+.form .el-input__inner {
+  background: rgba(67, 186, 254, 0.5);
+  border: 1px solid rgba(67, 186, 254, 0.5);
+  color: $color_white;
+}
+// end form 表单样式修改****************************
+
+// Select 下拉框样式修改****************************
+.el-select {
+  .el-input__inner {
+    background-color: $color_bg;
+    border: none;
+    border-radius: 0;
+    color: $color_white;
+    height: 22px;
+    line-height: 22px;
+    padding: 0 8px;
+  }
+  .el-input__icon {
+    border: none;
+    line-height: 22px;
+  }
+}
+.el-select-dropdown {
+  background-color: $color_bg;
+  border: 1px solid $color_bg;
+  border-radius: 0;
+  margin: 0;
+  .el-select-dropdown__list {
+    margin-bottom: 16px;
+    .el-select-dropdown__item {
+      color: rgba($color_white, 0.5);
+      height: 28px;
+      line-height: 28px;
+    }
+    .el-select-dropdown__item.hover,
+    .el-select-dropdown__item:hover {
+      background: none;
+      color: $color_white;
+    }
+    .el-select-dropdown__item.selected {
+      color: $color_white;
+      font-weight: 700;
+    }
+  }
+  .popper__arrow {
+    display: none;
+  }
+}
+.el-select-dropdown.el-popper {
+  margin-top: 0;
+}
+// end Select 下拉框样式修改************************
+
+// Collapse折叠面板样式修改****************************
+.el-collapse {
+  border: none;
+}
+
+.el-collapse-item__header {
+  background: linear-gradient(to bottom, rgba(20, 149, 235, 0.2), rgba(255, 255, 255, 0));
+  border: none;
+  color: $color_white;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+
+.el-collapse-item__arrow {
+  line-height: 30px;
+}
+
+.el-collapse-item__wrap {
+  background-color: transparent;
+  border-bottom: none;
+}
+
+.el-collapse-item__content {
+  color: $color_default;
+}
+// end 折叠面板****************************
+
+// 滚动条样式********************************
+.el-scrollbar {
+  height: 100%;
+}
+.el-scrollbar__wrap {
+  overflow-x: hidden;
+}
+.el-scrollbar__bar {
+  right: 0;
+  .el-scrollbar__thumb {
+    background-color: rgba($color_white, 0.25);
+  }
+}
+// end 滚动条样式********************************
