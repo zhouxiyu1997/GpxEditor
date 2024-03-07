@@ -1,16 +1,44 @@
 <template>
   <div class="right flex-1 flex flex-col">
-    <el-button type="primary">切换底图</el-button>
-    <el-button @click="ZoomIn"> <Plus style="width: 1em; height: 1em; margin-right: 8px" /></el-button>
-    <el-button @click="ZoomOut"> <Minus style="width: 1em; height: 1em; margin-right: 8px" /></el-button>
+    <p>{{ currentProvider }}</p>
+    <el-button type="primary" @click="switchToStreetMap()">街道地图</el-button>
+    <el-button type="primary" @click="switchToSatelliteMap()">卫星地图</el-button>
+    <el-button @click="ZoomIn"> <Plus style="width: 1em; height: 1em" /></el-button>
+    <el-button @click="ZoomOut"> <Minus style="width: 1em; height: 1em" /></el-button>
   </div>
 </template>
 <script setup>
+// 引用cesium
+import * as Cesium from 'cesium/Build/Cesium';
+import { ref } from 'vue';
+const currentProvider = ref('https://a.tile.openstreetmap.org/');
+
 const ZoomIn = () => {
   window.earthViewer.scene.camera.zoomIn();
 };
 const ZoomOut = () => {
   window.earthViewer.scene.camera.zoomOut();
+};
+const switchToStreetMap = () => {
+  window.earthViewer.imageryLayers.removeAll();
+  window.earthViewer.imageryLayers.addImageryProvider(
+    new Cesium.UrlTemplateImageryProvider({
+      url: 'https://a.tile.openstreetmap.org/',
+      maximumLevel: 18,
+    }),
+  );
+  currentProvider.value = 'https://a.tile.openstreetmap.org/';
+};
+const switchToSatelliteMap = () => {
+  window.earthViewer.imageryLayers.removeAll();
+  window.earthViewer.imageryLayers.addImageryProvider(
+    new Cesium.UrlTemplateImageryProvider({
+      url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      maximumLevel: 18,
+    }),
+  );
+  currentProvider.value =
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
 };
 </script>
 <style scoped>

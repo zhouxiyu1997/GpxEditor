@@ -19,7 +19,7 @@ const init = () => {
   // eslint-disable-next-line no-unused-vars
   const viewer = new Cesium.Viewer('sceneViewer', {
     animation: false, // 动画小组件
-    baseLayerPicker: true, // 底图组件，选择三维数字地球的底图（imagery and terrain）。
+    baseLayerPicker: false, // 底图组件，选择三维数字地球的底图（imagery and terrain）。
     fullscreenButton: false, // 全屏组件
     vrButton: false, // VR模式
     geocoder: false, // 地理编码（搜索）组件
