@@ -1,8 +1,8 @@
 <template>
   <div class="right">
     right <el-button type="primary">切换底图</el-button>
-    <el-button @click="ZoomIn">放大</el-button>
-    <el-button @click="ZoomOut">缩小</el-button>
+    <el-button @click="ZoomIn"> <Plus style="width: 1em; height: 1em; margin-right: 8px" /></el-button>
+    <el-button @click="ZoomOut"> <Minus style="width: 1em; height: 1em; margin-right: 8px" /></el-button>
   </div>
 </template>
 <script setup>
