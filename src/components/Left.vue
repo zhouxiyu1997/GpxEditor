@@ -1,8 +1,7 @@
 <template>
   <div class="left">
-    left111
-    <button @click="flytoHome">flyto</button>
-    <button @click="flyto">2333</button>
+    <el-button @click="flytoHome">flyto</el-button>
+    <el-button @click="flyto">2333</el-button>
   </div>
 </template>
 <script setup>
