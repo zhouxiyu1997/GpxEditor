@@ -1,15 +1,15 @@
 <template>
   <div class="Top">
-    <button @click="setSun">setSun</button>
-    <button @click="sethomeCamera">sethomeCamera</button>
-    <button @click="setEntity">setEntity</button>
-    <button @click="settwoPoint">settwoPoint</button>
-    <button @click="setbillboard">setbillboard</button>
-    <button @click="setView">setView</button>
-    <button @click="setmingyuan">setmingyuan</button>
-    <button @click="setlayer">setlayer</button>
-    <button @click="clear">clear</button>
-    <button @click="loadGpx">加载gpx</button>
+    <el-button @click="setSun">setSun</el-button>
+    <el-button @click="sethomeCamera">sethomeCamera</el-button>
+    <el-button @click="setEntity">setEntity</el-button>
+    <el-button @click="settwoPoint">settwoPoint</el-button>
+    <el-button @click="setbillboard">setbillboard</el-button>
+    <el-button @click="setView">setView</el-button>
+    <el-button @click="setmingyuan">setmingyuan</el-button>
+    <el-button @click="setlayer">setlayer</el-button>
+    <el-button @click="clear">clear</el-button>
+    <el-button @click="loadGpx">加载gpx</el-button>
     <input type="file" accept=".gpx" @change="handleFileUpload" />
   </div>
 </template>
@@ -22,7 +22,7 @@ const intervalId = setInterval(() => {
     earthViewer = window.earthViewer;
     clearInterval(intervalId);
   }
-}, 100); // 每100毫秒检查一次
+}, 1000); // 每100毫秒检查一次
 const setSun = () => {
   // Enable lighting based on the sun position
   earthViewer.scene.globe.enableLighting = true;

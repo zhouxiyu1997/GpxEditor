@@ -1,7 +1,7 @@
 <template>
   <div class="left">
     <el-button @click="flytoHome">flytoHome</el-button>
-    <el-button @click="flyto">2333</el-button>
+    <el-button @click="flyto">编辑</el-button>
   </div>
 </template>
 <script setup>
@@ -13,7 +13,7 @@ const intervalId = setInterval(() => {
     earthViewer = window.earthViewer;
     clearInterval(intervalId);
   }
-}, 100); // 每100毫秒检查一次
+}, 1000); // 每100毫秒检查一次
 const flytoHome = () => {
   var initialPosition = new Cesium.Cartesian3.fromDegrees(
     -73.998114468289017509,

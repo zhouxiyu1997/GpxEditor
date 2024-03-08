@@ -1,5 +1,5 @@
 <template>
-  <div class="Bottom">Bottom</div>
+  <div class="Bottom">Bottom详情</div>
 </template>
 <script setup></script>
 <style scoped lang="scss">
