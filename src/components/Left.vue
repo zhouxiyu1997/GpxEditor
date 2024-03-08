@@ -7,7 +7,13 @@
 <script setup>
 // 引用cesium
 import * as Cesium from 'cesium/Build/Cesium';
-const earthViewer = window.earthViewer;
+let earthViewer;
+const intervalId = setInterval(() => {
+  if (window.earthViewer) {
+    earthViewer = window.earthViewer;
+    clearInterval(intervalId);
+  }
+}, 100); // 每100毫秒检查一次
 const flytoHome = () => {
   var initialPosition = new Cesium.Cartesian3.fromDegrees(
     -73.998114468289017509,

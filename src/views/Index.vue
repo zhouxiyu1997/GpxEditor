@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <SceneViewer v-if="isMap" ref="map" @ready="ready" />
+    <SceneViewer ref="map" @ready="ready" />
     <Top />
     <Left />
     <Right />
@@ -13,6 +13,9 @@ import Right from '../components/Right.vue';
 import Top from '../components/Top.vue';
 import Bottom from '../components/Bottom.vue';
 import SceneViewer from '../components/SceneViewer.vue';
+const ready = viewer => {
+  window.earthViewer = viewer;
+};
 </script>
 
 <style lang="scss" scoped>

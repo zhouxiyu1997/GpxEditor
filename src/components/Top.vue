@@ -16,7 +16,13 @@
 <script setup>
 // 引用cesium
 import * as Cesium from 'cesium/Build/Cesium';
-const earthViewer = window.earthViewer;
+let earthViewer;
+const intervalId = setInterval(() => {
+  if (window.earthViewer) {
+    earthViewer = window.earthViewer;
+    clearInterval(intervalId);
+  }
+}, 100); // 每100毫秒检查一次
 const setSun = () => {
   // Enable lighting based on the sun position
   earthViewer.scene.globe.enableLighting = true;
@@ -125,10 +131,8 @@ const readAndDisplayGPX = file => {
       const lat = parseFloat(point.getAttribute('lat'));
       const lon = parseFloat(point.getAttribute('lon'));
       const elevation = parseFloat(point.querySelector('ele').textContent);
-
       positions.push(lon, lat, elevation);
     });
-    console.log(positions);
     earthViewer.entities.add({
       polyline: {
         positions: Cesium.Cartesian3.fromDegreesArrayHeights(positions),

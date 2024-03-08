@@ -1,20 +1,28 @@
 <template>
-  <div class="right flex flex-col flex-1">
+  <div class="right flex flex-col">
     <p>{{ currentProvider }}</p>
     <el-button @click="ZoomIn"> <Plus style="width: 1em; height: 1em" /></el-button>
     <el-button @click="ZoomOut"> <Minus style="width: 1em; height: 1em" /></el-button>
-    <el-button type="primary" @click="switchToStreetMap()">街道地图</el-button>
-    <el-button type="primary" @click="switchToSatelliteMap()">卫星地图</el-button>
+    <el-button @click="switchToStreetMap()">街道地图</el-button>
+    <el-button @click="switchToSatelliteMap()">卫星地图</el-button>
   </div>
 </template>
 <script setup>
 // 引用cesium
 import * as Cesium from 'cesium/Build/Cesium';
 import { ref } from 'vue';
-const currentProvider = ref('街道地图');
-const earthViewer = window.earthViewer;
+const currentProvider = ref('streetMap');
+let earthViewer;
+const intervalId = setInterval(() => {
+  if (window.earthViewer) {
+    earthViewer = window.earthViewer;
+    clearInterval(intervalId);
+  }
+}, 100); // 每100毫秒检查一次
 const ZoomIn = () => {
-  earthViewer.scene.camera.zoomIn();
+  window.earthViewer.scene.camera.zoomIn();
+  console.log(earthViewer);
+  console.log(window.earthViewer);
 };
 const ZoomOut = () => {
   earthViewer.scene.camera.zoomOut();
@@ -27,7 +35,7 @@ const switchToStreetMap = () => {
       maximumLevel: 18,
     }),
   );
-  currentProvider.value = '街道地图';
+  currentProvider.value = 'streetMap';
 };
 const switchToSatelliteMap = () => {
   earthViewer.imageryLayers.removeAll();
@@ -37,7 +45,7 @@ const switchToSatelliteMap = () => {
       maximumLevel: 18,
     }),
   );
-  currentProvider.value = '卫星底图';
+  currentProvider.value = 'satelliteMap';
 };
 </script>
 <style scoped>
