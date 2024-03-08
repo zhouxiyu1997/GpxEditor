@@ -1,6 +1,6 @@
 <template>
   <div class="left">
-    <el-button @click="flytoHome">flyto</el-button>
+    <el-button @click="flytoHome">flytoHome</el-button>
     <el-button @click="flyto">2333</el-button>
   </div>
 </template>

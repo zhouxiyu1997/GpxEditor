@@ -12,6 +12,8 @@
       <button @click="setmingyuan">setmingyuan</button>
       <button @click="setlayer">setlayer</button>
       <button @click="clear">clear</button>
+      <button @click="loadGpx">加载gpx</button>
+      <input type="file" accept=".gpx" @change="handleFileUpload" />
     </div>
     <Right />
   </div>
@@ -118,6 +120,41 @@ const setmingyuan = () => {
   viewer.zoomTo(viewer.entities);
 };
 const setlayer = () => {};
+const handleFileUpload = event => {
+  const file = event.target.files[0];
+  if (file) {
+    readAndDisplayGPX(file);
+  }
+};
+const readAndDisplayGPX = file => {
+  const reader = new FileReader();
+  reader.onload = event => {
+    const gpxData = event.target.result;
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(gpxData, 'text/xml');
+
+    const trackPoints = xmlDoc.querySelectorAll('trkpt');
+    const positions = [];
+
+    trackPoints.forEach(point => {
+      const lat = parseFloat(point.getAttribute('lat'));
+      const lon = parseFloat(point.getAttribute('lon'));
+      const elevation = parseFloat(point.querySelector('ele').textContent);
+
+      positions.push(lon, lat, elevation);
+    });
+    console.log(positions);
+    viewer.entities.add({
+      polyline: {
+        positions: Cesium.Cartesian3.fromDegreesArrayHeights(positions),
+        width: 5,
+        material: Cesium.Color.RED,
+      },
+    });
+    viewer.zoomTo(viewer.entities);
+  };
+  reader.readAsText(file);
+};
 const clear = () => {
   viewer.entities.removeAll();
 };
@@ -132,7 +169,7 @@ const clear = () => {
 .set {
   position: absolute;
   top: 0;
-  right: 50%;
+  left: 200px;
   z-index: 999;
   button {
     margin: 10px;
