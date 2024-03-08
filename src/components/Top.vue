@@ -11,11 +11,14 @@
     <el-button @click="clear">clear</el-button>
     <el-button @click="loadGpx">加载gpx</el-button>
     <input type="file" accept=".gpx" @change="handleFileUpload" />
+    <span>Top详情:{{ GpxDetail }}</span>
   </div>
 </template>
 <script setup>
 // 引用cesium
 import * as Cesium from 'cesium/Build/Cesium';
+import { ref } from 'vue';
+const GpxDetail = ref('');
 let earthViewer;
 const intervalId = setInterval(() => {
   if (window.earthViewer) {
@@ -126,17 +129,42 @@ const readAndDisplayGPX = file => {
 
     const trackPoints = xmlDoc.querySelectorAll('trkpt');
     const positions = [];
+    const positions2 = [];
 
-    trackPoints.forEach(point => {
+    let totalDistance = 0;
+    let totalClimb = 0;
+    let totalDescent = 0;
+
+    trackPoints.forEach((point, index) => {
       const lat = parseFloat(point.getAttribute('lat'));
       const lon = parseFloat(point.getAttribute('lon'));
       const elevation = parseFloat(point.querySelector('ele').textContent);
+      const time = new Date(point.querySelector('time').textContent);
       positions.push(lon, lat, elevation);
+      positions2.push({ lon, lat, elevation, time });
+      if (index > 0) {
+        const prevPoint = positions2[index - 1];
+        const distance = Cesium.Cartesian3.distance(
+          Cesium.Cartesian3.fromDegrees(prevPoint.lon, prevPoint.lat, prevPoint.elevation),
+          Cesium.Cartesian3.fromDegrees(lon, lat, elevation),
+        );
+        totalDistance += distance;
+        const elevationChange = elevation - prevPoint.elevation;
+        if (elevationChange > 0) {
+          totalClimb += elevationChange;
+        } else {
+          totalDescent += Math.abs(elevationChange);
+        }
+      }
     });
+    const totalTime = (positions2[positions2.length - 1].time - positions2[0].time) / 1000; // in seconds
+    const averageSpeed = totalDistance / totalTime; // in meters per second
+    GpxDetail.value = `Average speed: ${averageSpeed} m/s,Total climb: ${totalClimb} m,Total descent: ${totalDescent} m`;
+    // Add the line to the map
     earthViewer.entities.add({
       polyline: {
         positions: Cesium.Cartesian3.fromDegreesArrayHeights(positions),
-        width: 5,
+        width: 2,
         material: Cesium.Color.RED,
       },
     });
