@@ -4,7 +4,7 @@
 </template>
 
 <script setup>
-import { onMounted, defineEmits } from 'vue';
+import { onMounted } from 'vue';
 
 // 引用cesium
 import * as Cesium from 'cesium/Build/Cesium';
