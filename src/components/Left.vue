@@ -7,11 +7,8 @@
 <script setup>
 // 引用cesium
 import * as Cesium from 'cesium/Build/Cesium';
-
+const earthViewer = window.earthViewer;
 const flytoHome = () => {
-  // eslint-disable-next-line no-console
-  console.log(window.earthViewer);
-  // Create an initial camera view
   var initialPosition = new Cesium.Cartesian3.fromDegrees(
     -73.998114468289017509,
     40.674512895646692812,
@@ -31,20 +28,19 @@ const flytoHome = () => {
     },
   };
   // Set the initial view
-  window.earthViewer.scene.camera.setView(homeCameraView);
+  earthViewer.scene.camera.setView(homeCameraView);
 };
 const flyto = () => {};
 </script>
 <style scoped>
 .left {
   width: 200px;
-  height: 100%;
-  background-color: transparent;
+  height: calc(100% - 400px);
+  background-color: rgba(173, 216, 230, 0.5);
   position: absolute;
   left: 0;
-  top: 0;
+  top: 200px;
   overflow: auto;
-  padding: 10px;
   box-sizing: border-box;
   border-right: 1px solid #e0e0e0;
 }

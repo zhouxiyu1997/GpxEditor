@@ -43,13 +43,12 @@ const switchToSatelliteMap = () => {
 <style scoped>
 .right {
   width: 200px;
-  height: 100%;
-  background-color: transparent;
+  height: calc(100% - 400px);
+  background-color: rgba(0, 153, 204, 0.5);
   position: absolute;
   right: 0;
-  top: 0;
+  top: 200px;
   overflow: auto;
-  padding: 10px;
   box-sizing: border-box;
   border-left: 1px solid #e0e0e0;
 }
