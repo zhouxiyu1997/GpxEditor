@@ -2,14 +2,18 @@
   "name": "GpxEditor",
   "private": true,
   "version": "0.0.0",
-  "license": "MIT",
+  "engines": {
+    "bun": ">=1"
+  },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "bunx --bun vite",
+    "build": "bunx --bun vite build",
     "preview": "vite preview",
     "lint": "eslint src/**/*.{js,jsx,vue,ts,tsx} --fix",
     "prettier": "prettier --write src/**/*.{js,jsx,vue,ts,tsx}",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "npm list -g bun || npm install -g bun",
+    "preinstall": "echo 'Please use \"bun install\" instead of \"npm install\", \"pnpm install\" or \"yarn install\"' && exit 1"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
