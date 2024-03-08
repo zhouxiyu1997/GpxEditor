@@ -12,16 +12,16 @@
 import * as Cesium from 'cesium/Build/Cesium';
 import { ref } from 'vue';
 const currentProvider = ref('https://a.tile.openstreetmap.org/');
-
+const earthViewer = window.earthViewer;
 const ZoomIn = () => {
-  window.earthViewer.scene.camera.zoomIn();
+  earthViewer.scene.camera.zoomIn();
 };
 const ZoomOut = () => {
-  window.earthViewer.scene.camera.zoomOut();
+  earthViewer.scene.camera.zoomOut();
 };
 const switchToStreetMap = () => {
-  window.earthViewer.imageryLayers.removeAll();
-  window.earthViewer.imageryLayers.addImageryProvider(
+  earthViewer.imageryLayers.removeAll();
+  earthViewer.imageryLayers.addImageryProvider(
     new Cesium.UrlTemplateImageryProvider({
       url: 'https://a.tile.openstreetmap.org/',
       maximumLevel: 18,
@@ -30,8 +30,8 @@ const switchToStreetMap = () => {
   currentProvider.value = 'https://a.tile.openstreetmap.org/';
 };
 const switchToSatelliteMap = () => {
-  window.earthViewer.imageryLayers.removeAll();
-  window.earthViewer.imageryLayers.addImageryProvider(
+  earthViewer.imageryLayers.removeAll();
+  earthViewer.imageryLayers.addImageryProvider(
     new Cesium.UrlTemplateImageryProvider({
       url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
       maximumLevel: 18,

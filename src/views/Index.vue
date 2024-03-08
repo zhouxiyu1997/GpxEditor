@@ -24,9 +24,7 @@ import Right from '../components/Right.vue';
 import SceneViewer from '../components/SceneViewer.vue';
 import { ref } from 'vue';
 // 引用cesium
-import 'cesium/Build/Cesium/Widgets/widgets.css';
 import * as Cesium from 'cesium/Build/Cesium';
-
 const isMap = ref(true);
 let viewer = null;
 const ready = viewer2 => {
