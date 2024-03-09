@@ -21,6 +21,8 @@ const intervalId = setInterval(() => {
 }, 1000); // 每100毫秒检查一次
 const ZoomIn = () => {
   window.earthViewer.scene.camera.zoomIn();
+  console.log(earthViewer);
+  console.log(window.earthViewer);
 };
 const ZoomOut = () => {
   earthViewer.scene.camera.zoomOut();
