@@ -18,8 +18,16 @@
 ## License
 [MIT](LICENSE).
 
+
 ## How to use
+
+For a better development experience we use [bun](https://bun.sh/docs) instead of node, please install bun before you start developing.
+
+<i>[How to install?](https://bun.sh/docs/installation)</i>
+
+then
 ```bash
+
 # clone the project
 git clone https://github.com/Moonlit1997/GpxEditor.git
 
@@ -27,10 +35,10 @@ git clone https://github.com/Moonlit1997/GpxEditor.git
 cd GpxEditor
 
 # install dependency
-pnpm install
+bun install
 
 # develop
-pnpm dev
+bun dev
 ```
 
 ## Features
