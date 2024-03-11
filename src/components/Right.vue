@@ -1,8 +1,8 @@
 <template>
   <div class="right flex flex-col">
     <p>{{ currentProvider }}</p>
-    <div @click="ZoomIn" class="zoom"><Plus style="width: 2em; height: 2em" /></div>
-    <div @click="ZoomOut" class="zoom"><Minus style="width: 2em; height: 2em" /></div>
+    <div @click="ZoomIn" class="icon"><Plus style="width: 2em; height: 2em" /></div>
+    <div @click="ZoomOut" class="icon"><Minus style="width: 2em; height: 2em" /></div>
     <div @click="switchToStreetMap()">街道地图</div>
     <div @click="switchToSatelliteMap()">卫星地图</div>
   </div>
@@ -57,11 +57,5 @@ const switchToSatelliteMap = () => {
   overflow: auto;
   box-sizing: border-box;
   border-left: 1px solid #e0e0e0;
-  .zoom {
-    width: 2em;
-    height: 2em;
-    background-color: #fff;
-    margin: 10px;
-  }
 }
 </style>

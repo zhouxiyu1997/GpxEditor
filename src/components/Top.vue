@@ -1,31 +1,101 @@
 <template>
   <div class="Top">
-    <el-button @click="setSun">setSun</el-button>
-    <el-button @click="sethomeCamera">sethomeCamera</el-button>
-    <el-button @click="setEntity">setEntity</el-button>
-    <el-button @click="settwoPoint">settwoPoint</el-button>
-    <el-button @click="setbillboard">setbillboard</el-button>
-    <el-button @click="setView">setView</el-button>
-    <el-button @click="setmingyuan">setmingyuan</el-button>
-    <el-button @click="setlayer">setlayer</el-button>
-    <el-button @click="clear">clear</el-button>
-    <el-button @click="loadGpx">加载gpx</el-button>
+    <!-- <div @click="clear" class="icon" title="新建gpx"><DocumentAdd style="width: 2em; height: 2em" /></div> -->
     <input type="file" accept=".gpx" @change="handleFileUpload" />
-    <span>Top详情:{{ GpxDetail }}</span>
+    <el-button @click="clear" title="新建gpx">新建gpx</el-button>
+    <el-button @click="clear">导出gpx</el-button>
+    <el-button @click="clear">清除gpx</el-button>
+    <el-button @click="isShowMoreBtn">更多实验</el-button>
+    <div v-if="isShowMore">
+      <el-button @click="setSun">光照</el-button>
+      <el-button @click="sethomeCamera">视角改变</el-button>
+      <el-button @click="setEntity">新建实体</el-button>
+      <el-button @click="settwoPoint">新建俩个点</el-button>
+      <el-button @click="setbillboard">新建广告牌</el-button>
+      <el-button @click="setView">新建视角</el-button>
+      <el-button @click="setmingyuan">新建面</el-button>
+    </div>
+    <span>GPX数据详情:{{ GpxDetail }}</span>
   </div>
 </template>
 <script setup>
 // 引用cesium
 import * as Cesium from 'cesium/Build/Cesium';
 import { ref } from 'vue';
-const GpxDetail = ref('');
+let GpxDetail = ref('');
+let isShowMore = ref(false);
 let earthViewer;
 const intervalId = setInterval(() => {
   if (window.earthViewer) {
     earthViewer = window.earthViewer;
     clearInterval(intervalId);
   }
-}, 1000); // 每100毫秒检查一次
+}, 1000);
+//gpx文件操作
+const handleFileUpload = event => {
+  const file = event.target.files[0];
+  if (file) {
+    readAndDisplayGPX(file);
+  }
+};
+const readAndDisplayGPX = file => {
+  const reader = new FileReader();
+  reader.onload = event => {
+    const gpxData = event.target.result;
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(gpxData, 'text/xml');
+
+    const trackPoints = xmlDoc.querySelectorAll('trkpt');
+    const positions = [];
+    const positions2 = [];
+
+    let totalDistance = 0;
+    let totalClimb = 0;
+    let totalDescent = 0;
+
+    trackPoints.forEach((point, index) => {
+      const lat = parseFloat(point.getAttribute('lat'));
+      const lon = parseFloat(point.getAttribute('lon'));
+      const elevation = parseFloat(point.querySelector('ele').textContent);
+      const time = new Date(point.querySelector('time').textContent);
+      positions.push(lon, lat, elevation);
+      positions2.push({ lon, lat, elevation, time });
+      // Calculate distance, climb, and descent
+      if (index > 0) {
+        const prevPoint = positions2[index - 1];
+        const distance = Cesium.Cartesian3.distance(
+          Cesium.Cartesian3.fromDegrees(prevPoint.lon, prevPoint.lat, prevPoint.elevation),
+          Cesium.Cartesian3.fromDegrees(lon, lat, elevation),
+        );
+        totalDistance += distance;
+        const elevationChange = elevation - prevPoint.elevation;
+        if (elevationChange > 0) {
+          totalClimb += elevationChange;
+        } else {
+          totalDescent += Math.abs(elevationChange);
+        }
+      }
+    });
+    const totalTime = (positions2[positions2.length - 1].time - positions2[0].time) / 1000; // in seconds
+    const averageSpeed = totalDistance / totalTime; // in meters per second
+    GpxDetail.value = `Average speed: ${averageSpeed} m/s,Total climb: ${totalClimb} m,Total descent: ${totalDescent} m`;
+    // Add the line to the map
+    earthViewer.entities.add({
+      polyline: {
+        positions: Cesium.Cartesian3.fromDegreesArrayHeights(positions),
+        width: 2,
+        material: Cesium.Color.RED,
+      },
+    });
+    earthViewer.zoomTo(earthViewer.entities);
+  };
+  reader.readAsText(file);
+};
+// 更多实验
+const isShowMoreBtn = () => {
+  console.log(isShowMore);
+  isShowMore.value = !isShowMore.value;
+};
 const setSun = () => {
   // Enable lighting based on the sun position
   earthViewer.scene.globe.enableLighting = true;
@@ -113,71 +183,15 @@ const setmingyuan = () => {
   });
   earthViewer.zoomTo(earthViewer.entities);
 };
-const setlayer = () => {};
-const handleFileUpload = event => {
-  const file = event.target.files[0];
-  if (file) {
-    readAndDisplayGPX(file);
-  }
-};
-const readAndDisplayGPX = file => {
-  const reader = new FileReader();
-  reader.onload = event => {
-    const gpxData = event.target.result;
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(gpxData, 'text/xml');
-
-    const trackPoints = xmlDoc.querySelectorAll('trkpt');
-    const positions = [];
-    const positions2 = [];
-
-    let totalDistance = 0;
-    let totalClimb = 0;
-    let totalDescent = 0;
-
-    trackPoints.forEach((point, index) => {
-      const lat = parseFloat(point.getAttribute('lat'));
-      const lon = parseFloat(point.getAttribute('lon'));
-      const elevation = parseFloat(point.querySelector('ele').textContent);
-      const time = new Date(point.querySelector('time').textContent);
-      positions.push(lon, lat, elevation);
-      positions2.push({ lon, lat, elevation, time });
-      if (index > 0) {
-        const prevPoint = positions2[index - 1];
-        const distance = Cesium.Cartesian3.distance(
-          Cesium.Cartesian3.fromDegrees(prevPoint.lon, prevPoint.lat, prevPoint.elevation),
-          Cesium.Cartesian3.fromDegrees(lon, lat, elevation),
-        );
-        totalDistance += distance;
-        const elevationChange = elevation - prevPoint.elevation;
-        if (elevationChange > 0) {
-          totalClimb += elevationChange;
-        } else {
-          totalDescent += Math.abs(elevationChange);
-        }
-      }
-    });
-    const totalTime = (positions2[positions2.length - 1].time - positions2[0].time) / 1000; // in seconds
-    const averageSpeed = totalDistance / totalTime; // in meters per second
-    GpxDetail.value = `Average speed: ${averageSpeed} m/s,Total climb: ${totalClimb} m,Total descent: ${totalDescent} m`;
-    // Add the line to the map
-    earthViewer.entities.add({
-      polyline: {
-        positions: Cesium.Cartesian3.fromDegreesArrayHeights(positions),
-        width: 2,
-        material: Cesium.Color.RED,
-      },
-    });
-    earthViewer.zoomTo(earthViewer.entities);
-  };
-  reader.readAsText(file);
-};
 const clear = () => {
   earthViewer.entities.removeAll();
 };
 </script>
 <style scoped lang="scss">
 .Top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100px;
   background-color: rgba(255, 153, 0, 0.5);
