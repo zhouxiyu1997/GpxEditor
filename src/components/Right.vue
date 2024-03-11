@@ -18,14 +18,12 @@ const intervalId = setInterval(() => {
     earthViewer = window.earthViewer;
     clearInterval(intervalId);
   }
-}, 1000); // 每100毫秒检查一次
+}, 1000);
 const ZoomIn = () => {
-  window.earthViewer.scene.camera.zoomIn();
-  console.log(earthViewer);
-  console.log(window.earthViewer);
+  window.earthViewer.scene.camera.zoomIn(1000); //相机向前移动1000米
 };
 const ZoomOut = () => {
-  earthViewer.scene.camera.zoomOut();
+  earthViewer.scene.camera.zoomOut(1000); //相机向后移动1000米
 };
 const switchToStreetMap = () => {
   earthViewer.imageryLayers.removeAll();
