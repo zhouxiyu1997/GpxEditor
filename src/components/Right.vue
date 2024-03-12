@@ -71,13 +71,12 @@ const switchToMap = type => {
 .right {
   width: 200px;
   height: calc(100% - 400px);
-  background-color: rgba(0, 153, 204, 0.5);
+  /* background-color: rgba(0, 153, 204, 0.5); */
   position: absolute;
   right: 0;
   top: 200px;
   overflow: auto;
   box-sizing: border-box;
-  border-left: 1px solid #e0e0e0;
   align-items: flex-end;
 }
 .btn-div {

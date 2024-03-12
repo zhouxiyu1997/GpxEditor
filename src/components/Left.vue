@@ -1,6 +1,9 @@
 <template>
   <div class="left flex flex-col">
-    <el-button @click="startEdit">开始编辑</el-button>
+    <el-button @click="startEdit">点击编辑</el-button>
+    <el-button @click="startEdit">点击删除</el-button>
+    <el-button @click="startEdit">根据id删除</el-button>
+    <el-button @click="startEdit">框选删除</el-button>
   </div>
 </template>
 <script setup>
@@ -39,12 +42,14 @@ const startEdit = () => {
 .left {
   width: 200px;
   height: calc(100% - 400px);
-  background-color: rgba(173, 216, 230, 0.5);
+  /* background-color: rgba(173, 216, 230, 0.5); */
   position: absolute;
   left: 0;
   top: 200px;
   overflow: auto;
   box-sizing: border-box;
-  border-right: 1px solid #e0e0e0;
+  .el-button {
+    margin: 10px;
+  }
 }
 </style>

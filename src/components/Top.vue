@@ -84,7 +84,7 @@ const readAndDisplayGPX = file => {
     });
     const totalTime = (positions2[positions2.length - 1].time - positions2[0].time) / 1000; // in seconds
     const averageSpeed = totalDistance / totalTime; // in meters per second
-    GpxDetail.value = `Average speed: ${averageSpeed} m/s,Total climb: ${totalClimb} m,Total descent: ${totalDescent} m`;
+    GpxDetail.value = `平均速度: ${averageSpeed} m/s,总爬升: ${totalClimb} m,总距离: ${totalDescent} m`;
     // Add the line to the map
     earthViewer.entities.add({
       polyline: {
@@ -93,12 +93,38 @@ const readAndDisplayGPX = file => {
         material: Cesium.Color.RED,
       },
     });
+    //add the points to the map
+    positions2.forEach((point, index) => {
+      earthViewer.entities.add({
+        position: Cesium.Cartesian3.fromDegrees(point.lon, point.lat, point.elevation),
+        point: {
+          pixelSize: 5,
+          color: Cesium.Color.RED,
+        },
+      });
+      // Add a label to the point
+      earthViewer.entities.add({
+        position: Cesium.Cartesian3.fromDegrees(point.lon, point.lat, point.elevation),
+        label: {
+          text: index.toString(),
+          font: '14px sans-serif',
+          fillColor: Cesium.Color.WHITE,
+          outlineColor: Cesium.Color.BLACK,
+          outlineWidth: 2,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          pixelOffset: new Cesium.Cartesian2(0, -9),
+        },
+      });
+      //todo bind click event
+    });
+
     earthViewer.zoomTo(earthViewer.entities);
   };
   reader.readAsText(file);
 };
 const newGpx = () => {
-  // 新建gpx
+  // 新建gpx,弹窗Todo
 };
 const exportGpx = () => {
   // 导出gpx
@@ -214,13 +240,12 @@ const clear = () => {
   align-items: center;
   width: 100%;
   height: 100px;
-  background-color: rgba(255, 153, 0, 0.5);
+  // background-color: rgba(255, 153, 0, 0.5);
   position: absolute;
   left: 0;
   top: 0;
   overflow: auto;
   box-sizing: border-box;
-  border-right: 1px solid #e0e0e0;
 }
 .upload-button {
   padding: 8px 18px;
@@ -237,6 +262,6 @@ input {
 .detail {
   margin-top: 10px;
   font-size: 14px;
-  color: #fff;
+  color: #1900ff;
 }
 </style>
