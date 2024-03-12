@@ -48,11 +48,11 @@ const switchToStreetMap = () => {
   earthViewer.imageryLayers.removeAll();
   earthViewer.imageryLayers.addImageryProvider(
     new Cesium.UrlTemplateImageryProvider({
-      url: 'https://a.tile.openstreetmap.org/',
+      url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
       maximumLevel: 18,
     }),
   );
-  currentProvider.value = '街道底图';
+  currentProvider.value = '街道地图';
 };
 const switchToSatelliteMap = () => {
   earthViewer.imageryLayers.removeAll();
