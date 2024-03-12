@@ -1,7 +1,6 @@
 <template>
-  <div class="left">
-    <el-button @click="flytoHome">flytoHome</el-button>
-    <el-button @click="flyto">编辑</el-button>
+  <div class="left flex flex-col">
+    <el-button @click="startEdit">开始编辑</el-button>
   </div>
 </template>
 <script setup>
@@ -13,8 +12,8 @@ const intervalId = setInterval(() => {
     earthViewer = window.earthViewer;
     clearInterval(intervalId);
   }
-}, 1000); // 每100毫秒检查一次
-const flytoHome = () => {
+}, 1000);
+const startEdit = () => {
   var initialPosition = new Cesium.Cartesian3.fromDegrees(
     -73.998114468289017509,
     40.674512895646692812,
@@ -33,10 +32,8 @@ const flytoHome = () => {
       roll: initialOrientation.roll,
     },
   };
-  // Set the initial view
   earthViewer.scene.camera.setView(homeCameraView);
 };
-const flyto = () => {};
 </script>
 <style scoped>
 .left {

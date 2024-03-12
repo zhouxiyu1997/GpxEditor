@@ -2,10 +2,10 @@
   <div class="Top">
     <!-- <div @click="clear" class="icon" title="新建gpx"><DocumentAdd style="width: 2em; height: 2em" /></div> -->
     <div>
-      <label class="upload-button" for="upload"> 上传文件 </label>
+      <label class="upload-button" for="upload"> 导入gpx </label>
       <input type="file" accept=".gpx" @change="handleFileUpload" id="upload" />
-      <el-button @click="clear" title="新建gpx">新建gpx</el-button>
-      <el-button @click="clear">导出gpx</el-button>
+      <el-button @click="newGpx" title="新建gpx">新建gpx</el-button>
+      <el-button @click="exportGpx">导出gpx</el-button>
       <el-button @click="clear">清除gpx</el-button>
       <el-button @click="isShowMoreBtn">更多实验</el-button>
     </div>
@@ -18,7 +18,7 @@
       <el-button @click="setView">新建视角</el-button>
       <el-button @click="setmingyuan">新建面</el-button>
     </div>
-    <div>
+    <div class="detail">
       <span>GPX数据详情:{{ GpxDetail }}</span>
     </div>
   </div>
@@ -49,7 +49,8 @@ const readAndDisplayGPX = file => {
     const gpxData = event.target.result;
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(gpxData, 'text/xml');
-
+    //把file储存到localStorage
+    localStorage.setItem('gpx', gpxData);
     const trackPoints = xmlDoc.querySelectorAll('trkpt');
     const positions = [];
     const positions2 = [];
@@ -95,6 +96,20 @@ const readAndDisplayGPX = file => {
     earthViewer.zoomTo(earthViewer.entities);
   };
   reader.readAsText(file);
+};
+const newGpx = () => {
+  // 新建gpx
+};
+const exportGpx = () => {
+  // 导出gpx
+  const gpx = localStorage.getItem('gpx');
+  const blob = new Blob([gpx], { type: 'text/xml' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'test.gpx';
+  a.click();
+  URL.revokeObjectURL(url);
 };
 // 更多实验
 const isShowMoreBtn = () => {
@@ -216,8 +231,12 @@ const clear = () => {
   cursor: pointer;
   margin-right: 12px;
 }
-
 input {
   display: none;
+}
+.detail {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #fff;
 }
 </style>
