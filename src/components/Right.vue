@@ -7,8 +7,9 @@
     <div @click="focusOn" class="icon" title="定位到本地"><Aim style="width: 2em; height: 2em" /></div>
     <div @click="isShowMoreBtn" class="icon" title="切换底图"><Switch style="width: 2em; height: 2em" /></div>
     <div v-if="isShowMore" class="btn-div">
-      <div @click="switchToStreetMap()" class="btn">街道地图</div>
-      <div @click="switchToSatelliteMap()" class="btn">卫星地图</div>
+      <div @click="switchToMap('Street_Map')" class="btn">街道地图</div>
+      <div @click="switchToMap('Imagery')" class="btn">卫星地图</div>
+      <div @click="switchToMap('Terrain')" class="btn">地形底图</div>
     </div>
   </div>
 </template>
@@ -44,25 +45,20 @@ const focusOn = () => {
 const isShowMoreBtn = () => {
   isShowMore.value = !isShowMore.value;
 };
-const switchToStreetMap = () => {
+const switchToMap = type => {
   earthViewer.imageryLayers.removeAll();
+  if (type === 'Terrain') {
+    earthViewer.scene.setTerrain(new Cesium.Terrain(Cesium.CesiumTerrainProvider.fromIonAssetId(2426648)));
+    currentProvider.value = type;
+    return;
+  }
   earthViewer.imageryLayers.addImageryProvider(
     new Cesium.UrlTemplateImageryProvider({
-      url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+      url: `https://server.arcgisonline.com/ArcGIS/rest/services/World_${type}/MapServer/tile/{z}/{y}/{x}`,
       maximumLevel: 18,
     }),
   );
-  currentProvider.value = '街道地图';
-};
-const switchToSatelliteMap = () => {
-  earthViewer.imageryLayers.removeAll();
-  earthViewer.imageryLayers.addImageryProvider(
-    new Cesium.UrlTemplateImageryProvider({
-      url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      maximumLevel: 18,
-    }),
-  );
-  currentProvider.value = '卫星底图';
+  currentProvider.value = type;
 };
 </script>
 <style scoped>

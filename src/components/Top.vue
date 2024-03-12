@@ -1,12 +1,14 @@
 <template>
   <div class="Top">
     <!-- <div @click="clear" class="icon" title="新建gpx"><DocumentAdd style="width: 2em; height: 2em" /></div> -->
-    <label class="upload-button" for="upload"> 上传文件 </label>
-    <input type="file" accept=".gpx" @change="handleFileUpload" id="upload" />
-    <el-button @click="clear" title="新建gpx">新建gpx</el-button>
-    <el-button @click="clear">导出gpx</el-button>
-    <el-button @click="clear">清除gpx</el-button>
-    <el-button @click="isShowMoreBtn">更多实验</el-button>
+    <div>
+      <label class="upload-button" for="upload"> 上传文件 </label>
+      <input type="file" accept=".gpx" @change="handleFileUpload" id="upload" />
+      <el-button @click="clear" title="新建gpx">新建gpx</el-button>
+      <el-button @click="clear">导出gpx</el-button>
+      <el-button @click="clear">清除gpx</el-button>
+      <el-button @click="isShowMoreBtn">更多实验</el-button>
+    </div>
     <div v-if="isShowMore">
       <el-button @click="setSun">光照</el-button>
       <el-button @click="sethomeCamera">视角改变</el-button>
@@ -16,7 +18,9 @@
       <el-button @click="setView">新建视角</el-button>
       <el-button @click="setmingyuan">新建面</el-button>
     </div>
-    <span>GPX数据详情:{{ GpxDetail }}</span>
+    <div>
+      <span>GPX数据详情:{{ GpxDetail }}</span>
+    </div>
   </div>
 </template>
 <script setup>
@@ -94,7 +98,6 @@ const readAndDisplayGPX = file => {
 };
 // 更多实验
 const isShowMoreBtn = () => {
-  console.log(isShowMore);
   isShowMore.value = !isShowMore.value;
 };
 const setSun = () => {
@@ -191,6 +194,7 @@ const clear = () => {
 <style scoped lang="scss">
 .Top {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -204,8 +208,8 @@ const clear = () => {
   border-right: 1px solid #e0e0e0;
 }
 .upload-button {
-  height: 32px;
-  padding: 6px 25px;
+  padding: 8px 18px;
+  font-size: 14px;
   background: #00bfff;
   border-radius: 4px;
   color: white;
