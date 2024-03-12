@@ -1,7 +1,8 @@
 <template>
   <div class="Top">
     <!-- <div @click="clear" class="icon" title="新建gpx"><DocumentAdd style="width: 2em; height: 2em" /></div> -->
-    <input type="file" accept=".gpx" @change="handleFileUpload" />
+    <label class="upload-button" for="upload"> 上传文件 </label>
+    <input type="file" accept=".gpx" @change="handleFileUpload" id="upload" />
     <el-button @click="clear" title="新建gpx">新建gpx</el-button>
     <el-button @click="clear">导出gpx</el-button>
     <el-button @click="clear">清除gpx</el-button>
@@ -201,5 +202,18 @@ const clear = () => {
   overflow: auto;
   box-sizing: border-box;
   border-right: 1px solid #e0e0e0;
+}
+.upload-button {
+  height: 32px;
+  padding: 6px 25px;
+  background: #00bfff;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  margin-right: 12px;
+}
+
+input {
+  display: none;
 }
 </style>
