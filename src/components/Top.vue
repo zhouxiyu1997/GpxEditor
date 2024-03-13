@@ -36,7 +36,7 @@ const intervalId = setInterval(() => {
     clearInterval(intervalId);
   }
 }, 1000);
-//gpx文件操作
+//gpx文件操作：存入localStorage,读取gpx文件，计算gpx信息，显示点线，绑定点击事件
 const handleFileUpload = event => {
   const file = event.target.files[0];
   if (file) {
@@ -66,6 +66,7 @@ const readAndDisplayGPX = file => {
       const time = new Date(point.querySelector('time').textContent);
       positions.push(lon, lat, elevation);
       positions2.push({ lon, lat, elevation, time });
+
       // Calculate distance, climb, and descent
       if (index > 0) {
         const prevPoint = positions2[index - 1];
@@ -96,6 +97,7 @@ const readAndDisplayGPX = file => {
     //add the points to the map
     positions2.forEach((point, index) => {
       earthViewer.entities.add({
+        id: index,
         position: Cesium.Cartesian3.fromDegrees(point.lon, point.lat, point.elevation),
         point: {
           pixelSize: 5,
@@ -104,6 +106,7 @@ const readAndDisplayGPX = file => {
       });
       // Add a label to the point
       earthViewer.entities.add({
+        id: index + '-label',
         position: Cesium.Cartesian3.fromDegrees(point.lon, point.lat, point.elevation),
         label: {
           text: index.toString(),
