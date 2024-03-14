@@ -9,7 +9,7 @@ module.exports = {
   // useTabs: false,
 
   // 换行符
-  // endOfLine: 'lf',
+  endOfLine: 'auto',
 
   //（默认值）语句的末尾加上分号
   semi: true,

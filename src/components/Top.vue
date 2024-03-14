@@ -50,7 +50,7 @@ const readAndDisplayGPX = file => {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(gpxData, 'text/xml');
     //把file储存到localStorage
-    localStorage.setItem('gpx', gpxData);
+    localStorage.setItem('gpx1', gpxData);
     const trackPoints = xmlDoc.querySelectorAll('trkpt');
     const positions = [];
     const positions2 = [];

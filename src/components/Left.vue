@@ -3,12 +3,13 @@
     <el-button @click="startEdit">点击编辑</el-button>
     <el-button @click="startDelectById(3)">点击删除</el-button>
     <el-button @click="startDelectById(0)">根据id删除</el-button>
-    <el-button @click="startEdit">框选删除</el-button>
+    <el-button @click="until">框选删除</el-button>
   </div>
 </template>
 <script setup>
 // 引用cesium
 import * as Cesium from 'cesium/Build/Cesium';
+import { until } from '../api/until';
 let earthViewer;
 const intervalId = setInterval(() => {
   if (window.earthViewer) {
