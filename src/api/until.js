@@ -14,7 +14,7 @@ export function readGpx(file) {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(gpxData, 'text/xml');
       //把file储存到localStorage
-      localStorage.setItem('gpx1', gpxData);
+      localStorage.setItem('gpx', gpxData);
       const trackPoints = xmlDoc.querySelectorAll('trkpt');
       trackPoints.forEach((point, index) => {
         const lat = parseFloat(point.getAttribute('lat'));
@@ -31,6 +31,8 @@ export function readGpx(file) {
 }
 //重划线、点、label
 export function drawGpx(earthViewer, positions) {
+  // Remove all existing entities
+  earthViewer.entities.removeAll();
   //绘制线
   let positions2 = positions.flatMap(obj => [obj.lon, obj.lat, obj.elevation]);
   // Add the line to the map
@@ -97,9 +99,47 @@ export function countGpx(positions) {
   GpxDetail = `平均速度: ${averageSpeed} m/s,总爬升: ${totalClimb} m,总距离: ${totalDescent} m`;
   return GpxDetail;
 }
+//delect gpx数据通过id
+export function delectGpx(index, index2) {
+  const positions = [];
+  // 解析 GPX 数据
+  const gpxData = localStorage.getItem('gpx');
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(gpxData, 'text/xml');
+
+  // 获取所有 trkpt 元素
+  const trackPoints = xmlDoc.querySelectorAll('trkpt');
+  // 检查索引是否有效
+  if (index < 0 || index2 >= trackPoints.length || index > index2) {
+    throw new Error('Index out of range');
+  }
+
+  // 删除指定范围内的 trkpt 元素
+  for (let i = index2; i >= index; i--) {
+    const trkptToRemove = trackPoints[i];
+    trkptToRemove.parentNode.removeChild(trkptToRemove);
+  }
+
+  // 将修改后的 XML 文档转换回字符串
+  const serializer = new XMLSerializer();
+  const updatedGpxData = serializer.serializeToString(xmlDoc);
+  // 将更新后的 GPX 数据存回 localStorage
+  localStorage.setItem('gpx', updatedGpxData);
+  const trackPoints2 = xmlDoc.querySelectorAll('trkpt');
+  trackPoints2.forEach((point, index) => {
+    const lat = parseFloat(point.getAttribute('lat'));
+    const lon = parseFloat(point.getAttribute('lon'));
+    const elevation = parseFloat(point.querySelector('ele').textContent);
+    const time = new Date(point.querySelector('time').textContent);
+    positions.push({ lon, lat, elevation, time });
+  });
+  //返回更新后的trkpt
+  return positions;
+}
 export default {
   until,
   readGpx,
   drawGpx,
   countGpx,
+  delectGpx,
 };
