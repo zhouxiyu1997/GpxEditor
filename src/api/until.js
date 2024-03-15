@@ -16,7 +16,7 @@ export function readGpx(file) {
       //把file储存到localStorage
       localStorage.setItem('gpx', gpxData);
       const trackPoints = xmlDoc.querySelectorAll('trkpt');
-      trackPoints.forEach((point, index) => {
+      trackPoints.forEach(point => {
         const lat = parseFloat(point.getAttribute('lat'));
         const lon = parseFloat(point.getAttribute('lon'));
         const elevation = parseFloat(point.querySelector('ele').textContent);
@@ -54,20 +54,22 @@ export function drawGpx(earthViewer, positions) {
       },
     });
     // Add a label to the point
-    earthViewer.entities.add({
-      id: index + '-label',
-      position: Cesium.Cartesian3.fromDegrees(point.lon, point.lat, point.elevation),
-      label: {
-        text: index.toString(),
-        font: '14px sans-serif',
-        fillColor: Cesium.Color.WHITE,
-        outlineColor: Cesium.Color.BLACK,
-        outlineWidth: 2,
-        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-        verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-        pixelOffset: new Cesium.Cartesian2(0, -9),
-      },
-    });
+    if (index % 10 == 0) {
+      earthViewer.entities.add({
+        id: index + '-label',
+        position: Cesium.Cartesian3.fromDegrees(point.lon, point.lat, point.elevation),
+        label: {
+          text: index.toString(),
+          font: '14px sans-serif',
+          fillColor: Cesium.Color.WHITE,
+          outlineColor: Cesium.Color.BLACK,
+          outlineWidth: 2,
+          style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+          verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+          pixelOffset: new Cesium.Cartesian2(0, -9),
+        },
+      });
+    }
   });
   earthViewer.zoomTo(earthViewer.entities);
 }
@@ -126,7 +128,7 @@ export function delectGpx(index, index2) {
   // 将更新后的 GPX 数据存回 localStorage
   localStorage.setItem('gpx', updatedGpxData);
   const trackPoints2 = xmlDoc.querySelectorAll('trkpt');
-  trackPoints2.forEach((point, index) => {
+  trackPoints2.forEach(point => {
     const lat = parseFloat(point.getAttribute('lat'));
     const lon = parseFloat(point.getAttribute('lon'));
     const elevation = parseFloat(point.querySelector('ele').textContent);
