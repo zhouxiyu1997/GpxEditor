@@ -1,6 +1,6 @@
 <template>
   <div class="left flex flex-col">
-    <el-button @click="startEdit">点击编辑(TODO)</el-button>
+    <el-button @click="startEdit">点击编辑2(TODO)</el-button>
     <el-button @click="startDelectById(0)">点击删除(TODO)</el-button>
     <el-input v-model="inputID" style="width: 100px" placeholder="输入格式:0-100" />
     <el-button @click="startDelectById()">根据id删除</el-button>
