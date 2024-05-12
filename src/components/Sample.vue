@@ -58,7 +58,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div>{{ sum }}</div>
+  <div>{{ sum }}test</div>
 </template>
 
 <style lang="scss" scoped></style>
