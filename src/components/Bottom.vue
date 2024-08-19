@@ -1,5 +1,5 @@
 <template>
-  <div class="Bottom">Bottom详情及图表</div>
+  <div class="Bottom">Bottom详情及图表1</div>
 </template>
 <script setup></script>
 <style scoped lang="scss">
