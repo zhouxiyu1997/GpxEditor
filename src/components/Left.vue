@@ -42,7 +42,7 @@ const startEdit = () => {
   earthViewer.scene.camera.setView(homeCameraView);
 };
 const startDelectById = () => {
-  //读取inputID.value，设为index,index2
+  //读取inputID.value,设为index,index2
   let index = parseInt(inputID.value.split('-')[0]);
   let index2 = parseInt(inputID.value.split('-')[1]);
   let positions = delectGpx(index, index2);
