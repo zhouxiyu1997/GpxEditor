@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #eff6ff;
+  background:
+    radial-gradient(circle at top, rgba(255, 123, 57, 0.18), transparent 28%),
+    linear-gradient(180deg, #07111f 0%, #0a1628 56%, #10233c 100%);
+  font-family: 'Avenir Next', 'Segoe UI', 'Helvetica Neue', sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#app {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-width: 320px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(180deg, #bdd8ee 0%, #8db6d9 100%);
+  font: inherit;
+}
+
+.leaflet-control-attribution {
+  display: none;
+}
+
+.leaflet-tooltip.track-tooltip {
+  border: none;
+  border-radius: 999px;
+  background: rgba(7, 17, 31, 0.86);
+  color: #f8fafc;
+  box-shadow: 0 12px 28px rgba(7, 17, 31, 0.22);
+}
+
+.leaflet-tooltip.track-tooltip::before {
+  display: none;
+}
+
+.track-marker-shell {
+  background: transparent;
+  border: none;
+}
+
+.selected-point-marker {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 3px solid #fff2d6;
+  background: #ff7b39;
+  box-shadow: 0 0 0 6px rgba(255, 123, 57, 0.26);
+}
+
+@layer components {
+  .panel-surface {
+    @apply rounded-[28px] border border-white/15 bg-slate-950/70 shadow-panel backdrop-blur-xl;
+  }
+
+  .panel-section {
+    @apply rounded-3xl border border-white/10 bg-white/5;
+  }
+
+  .editor-button {
+    @apply inline-flex items-center justify-center rounded-2xl border border-white/15 px-4 py-2.5 text-sm font-semibold text-slate-100 transition hover:border-white/30 hover:bg-white/10;
+  }
+
+  .editor-button-primary {
+    @apply inline-flex items-center justify-center rounded-2xl bg-amber-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-amber-400;
+  }
+
+  .editor-button-active {
+    @apply border-amber-300/70 bg-amber-500/20 text-amber-100;
+  }
+
+  .editor-chip {
+    @apply inline-flex items-center rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-200/90;
+  }
+}

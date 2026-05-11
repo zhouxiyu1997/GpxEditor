@@ -1,8 +1,18 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
+export default {
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        ink: '#07111f',
+        mist: '#d7e4f8',
+        ember: '#ff7b39',
+        glow: '#ffe3c4',
+      },
+      boxShadow: {
+        panel: '0 22px 60px rgba(7, 17, 31, 0.24)',
+      },
+    },
   },
-  plugins: ['prettier-plugin-tailwindcss'],
+  plugins: [],
 };
